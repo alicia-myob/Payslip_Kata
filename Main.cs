@@ -10,7 +10,6 @@ namespace Payslip{
         public static void Main(String[] args){
             Console.WriteLine("Welcome to the payslip generator! \n");
             
-
         }
 
         public bool validator(string input){

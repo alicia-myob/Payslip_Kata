@@ -1,0 +1,6 @@
+name
+surname
+annual_salary 
+super_rate
+payment_start_date
+payment_end_date
