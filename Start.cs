@@ -4,6 +4,7 @@ using System.IO;
 
 namespace Payslip{
     
+    
     class Start{
         
         private Dictionary<string, string> _info = new Dictionary<string, string>();
@@ -95,6 +96,10 @@ namespace Payslip{
             }
 
             return false;
+        }
+
+        public void checkMonthDate(int month, int date){
+            
         }
 
     }
