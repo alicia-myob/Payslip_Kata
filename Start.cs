@@ -11,9 +11,10 @@ namespace Payslip{
 
         public static void Main(String[] args){
             Start payslipProgram = new Start();
-            Console.WriteLine("Welcome to the payslip generator! \n");
+            Console.WriteLine("Welcome to the payslip generator!");
             payslipProgram.readQuestions();
         }
+
         /*
             This method reads the questions to ask the user from the text file
         */
@@ -26,7 +27,73 @@ namespace Payslip{
             }
         }
 
-        public bool validator(string input){
+        public void printAndValidate(){
+            bool valid = true;
+            for (int i = 0; i < _userQuestions.Length; i++){
+                while (valid){
+                    Console.WriteLine("\nPlease enter your " + _userQuestions[i] + ": ");
+                    string input = Console.ReadLine();
+                    valid = validator(input, _userQuestions[i]);
+                }
+            }
+        }
+
+        public bool validator(string input, string type){
+
+            if (String.IsNullOrEmpty(input)){
+                Console.WriteLine("Input cannot be blank. \n");
+                return false;
+            } 
+
+            switch(type){
+                case "name":
+                case "surname":
+                    break;
+
+                case "annual salary":
+                    try {
+                        long annualSalary = long.Parse(input);
+                        if (annualSalary < 0){
+                            break;
+                        } else {
+                            return true;
+                        }
+                    } catch (FormatException){
+                        break;
+                    }
+                case "super rate":
+                    try {
+                        decimal superRate = decimal.Parse(input);
+                        if ((superRate< 0)||(superRate > 50)){
+                            break;
+                        } else {
+                            return true;
+                        }
+                    } catch (FormatException){
+                        break;
+                    }
+                case "payment start date": 
+                    string[] dates = input.Split("//");
+                    try {
+                        int date = int.Parse(dates[0]);
+                        int month = int.Parse(dates[1]);
+                        int year = int.Parse(dates[2]);
+                        if (year < 0){
+                            break;
+                        } else if ((month < 1)||(month > 12)){
+                            break;
+                        } else if ((date < 1)||(date > 31)){
+                            break;
+                        } else {
+                            
+                        }
+                    } catch (FormatException){
+                        break;
+                    }
+                    break;
+
+            }
+
             return false;
         }
 
