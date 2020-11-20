@@ -1,0 +1,15 @@
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/Payslip_Kata.csprojAssemblyReference.cache
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/Payslip_Kata.GeneratedMSBuildEditorConfig.editorconfig
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/Payslip_Kata.AssemblyInfoInputs.cache
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/Payslip_Kata.AssemblyInfo.cs
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/Payslip_Kata.csproj.CoreCompileInputs.cache
+/Users/Alicia.Shen/Documents/Payslip_Kata/bin/Debug/net5.0/Payslip_Kata.deps.json
+/Users/Alicia.Shen/Documents/Payslip_Kata/bin/Debug/net5.0/Payslip_Kata.runtimeconfig.json
+/Users/Alicia.Shen/Documents/Payslip_Kata/bin/Debug/net5.0/Payslip_Kata.runtimeconfig.dev.json
+/Users/Alicia.Shen/Documents/Payslip_Kata/bin/Debug/net5.0/Payslip_Kata.dll
+/Users/Alicia.Shen/Documents/Payslip_Kata/bin/Debug/net5.0/ref/Payslip_Kata.dll
+/Users/Alicia.Shen/Documents/Payslip_Kata/bin/Debug/net5.0/Payslip_Kata.pdb
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/Payslip_Kata.dll
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/ref/Payslip_Kata.dll
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/Payslip_Kata.pdb
+/Users/Alicia.Shen/Documents/Payslip_Kata/obj/Debug/net5.0/Payslip_Kata.genruntimeconfig.cache
