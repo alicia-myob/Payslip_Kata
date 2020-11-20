@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Payslip{
     
@@ -18,8 +19,11 @@ namespace Payslip{
         */
         public void readQuestions(){
             var path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Variables.txt");
-            _userQuestions = System.IO.File.ReadAllLines(path);
-            
+            try {
+                _userQuestions = System.IO.File.ReadAllLines(path);
+            } catch (FileNotFoundException ex){
+                Console.WriteLine(ex);
+            }
         }
 
         public bool validator(string input){
