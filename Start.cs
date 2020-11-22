@@ -7,6 +7,7 @@ namespace Payslip{
     class Start{
         
         private Dictionary<string, string> _info = new Dictionary<string, string>();
+        private Calculator _calculator = new Calculator();
         private string[] _userQuestions;
 
         public static void Main(String[] args){
@@ -38,6 +39,8 @@ namespace Payslip{
                     valid = validator(input, _userQuestions[i]);
                     if (valid == false){
                         Console.WriteLine("Your " + _userQuestions[i] + " is invalid.");
+                    } else {
+                        _calculator.getDetails(input);
                     }
                 }
             }
