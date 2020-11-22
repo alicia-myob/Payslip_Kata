@@ -4,7 +4,6 @@ using System.IO;
 
 namespace Payslip{
     
-    
     class Start{
         
         private Dictionary<string, string> _info = new Dictionary<string, string>();
@@ -14,6 +13,7 @@ namespace Payslip{
             Start payslipProgram = new Start();
             Console.WriteLine("Welcome to the payslip generator!");
             payslipProgram.readQuestions();
+            payslipProgram.printAndValidate();
         }
 
         /*
@@ -29,12 +29,16 @@ namespace Payslip{
         }
 
         public void printAndValidate(){
-            bool valid = true;
+            
             for (int i = 0; i < _userQuestions.Length; i++){
-                while (valid){
+                bool valid = false;
+                while (!valid){
                     Console.WriteLine("\nPlease enter your " + _userQuestions[i] + ": ");
                     string input = Console.ReadLine();
                     valid = validator(input, _userQuestions[i]);
+                    if (valid == false){
+                        Console.WriteLine("Your " + _userQuestions[i] + " is invalid.");
+                    }
                 }
             }
         }
@@ -47,13 +51,13 @@ namespace Payslip{
             } 
 
             switch(type){
-                case "name":
+                case "name": //Fallthrough
                 case "surname":
-                    break;
+                    return true;
 
                 case "annual salary":
                     try {
-                        long annualSalary = long.Parse(input);
+                        int annualSalary = (int)Int64.Parse(input);
                         if (annualSalary < 0){
                             break;
                         } else {
@@ -73,8 +77,9 @@ namespace Payslip{
                     } catch (FormatException){
                         break;
                     }
-                case "payment start date": 
-                    string[] dates = input.Split("//");
+                case "payment start date": //Fallthrough
+                case "payment end date":
+                    string[] dates = input.Split('/');
                     try {
                         int date = int.Parse(dates[0]);
                         int month = int.Parse(dates[1]);
@@ -85,22 +90,51 @@ namespace Payslip{
                             break;
                         } else if ((date < 1)||(date > 31)){
                             break;
+                        } 
+
+                        bool rtrn = checkMonthDate(month, date);
+                        bool leap = checkLeap(year, month, date);
+                        if ((rtrn == false)||(leap == false)){
+                            break;
                         } else {
-                            
+                            return true;
                         }
+
                     } catch (FormatException){
                         break;
                     }
-                    break;
-
+                default: 
+                    return false;
             }
-
             return false;
         }
 
-        public void checkMonthDate(int month, int date){
-            
+        public bool checkMonthDate(int month, int date){
+            if ((month < 8)&&(month % 2 == 1)){
+                if (date <= 31){
+                    return true;
+                }
+            } else if (month % 2 == 0){
+                if (date <= 31){
+                    return true;
+                }
+            } else {
+                if (date <= 30){
+                    return true;
+                }
+            }
+            return false;
         }
 
+        public bool checkLeap(int year, int month, int date){
+            if ((month == 2)&&(date == 29)){
+                if (year % 4 == 0){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
