@@ -2,5 +2,5 @@ name
 surname
 annual salary 
 super rate
-payment start month (mm/yy)
-payment end month (mm/yy)
+payment start month (dd/mm/yyyy)
+payment end month (dd/mm/yyyy)
