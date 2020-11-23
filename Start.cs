@@ -5,9 +5,9 @@ using System.IO;
 
 namespace Payslip{
     
-    /*
-        This payslip program calculates an employee's pay for a specified range of calendar months (within one annum only).
-        This program also assumes that the payslip cannot be for a range less than a month.
+    /** 
+        <summary> This payslip program calculates an employee's pay for a specified range of calendar months (within one annum only).
+        This program also assumes that the payslip cannot be for a range less than a month. </summary>
     */
     class Start{
         
@@ -19,14 +19,24 @@ namespace Payslip{
 
         public static void Main(String[] args){
             Start payslipProgram = new Start();
-            Console.WriteLine("Welcome to the payslip generator!");
+
+            //Welcome messages
+            Console.WriteLine("\nWelcome to the payslip generator!");
             Console.WriteLine("*Note for pay period: enter start month as the month pay begins and end at the month inclusive");
-            Console.WriteLine(" e.g. March 2020 - April 2020 means 01 March 2020 to 31 April 2020");
-            payslipProgram.readQuestions();
+            Console.WriteLine(" e.g. March 2020 - April 2020 means 01 March 2020 to 31 April 2020\n");
+            
+            //Fetch questions to ask user
+            payslipProgram.readQuestions(); 
+
+            //Ask user and check input
             payslipProgram.printAndValidate();
+
+            //Calculate details for payslip and retrieve + print
             payslipProgram._calculator.generatePayslip();
             payslipProgram._payslip = payslipProgram._calculator.getPayslip();
             payslipProgram.printPayslip();
+
+            //Ending messages
             Console.WriteLine("\nThank you for using MYOB!\n");
         }
 
@@ -41,7 +51,9 @@ namespace Payslip{
                 Console.WriteLine(ex);
             }
         }
-
+    
+        /*
+        */
         public void printAndValidate(){
             
             for (int i = 0; i < _userQuestions.Length; i++){
@@ -115,7 +127,7 @@ namespace Payslip{
                             } 
                             break;
                         }
-                    } catch (FormatException){
+                    } catch (IndexOutOfRangeException){
                         break;
                     }
                 default: 
