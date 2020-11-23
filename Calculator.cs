@@ -73,10 +73,8 @@ namespace Payslip{
 
                 if (String.Equals(startYear, endYear, StringComparison.OrdinalIgnoreCase)){
                     _totalMonths = _endMonthIndex + 1 - _startMonthIndex;
-                    Console.WriteLine(_totalMonths);
                 } else {
                     _totalMonths = _endMonthIndex + 1 + (11 - _startMonthIndex);
-                    Console.WriteLine(_totalMonths);
                 }
             } catch (IndexOutOfRangeException){}
            
@@ -102,7 +100,6 @@ namespace Payslip{
 
         public string getSuper(){
             decimal superRate = decimal.Parse((string)_details[3])/100;
-            Console.WriteLine(superRate);
             decimal superTotal = _grossIncome * superRate;
             return Math.Round(superTotal, MidpointRounding.ToEven).ToString();
 
