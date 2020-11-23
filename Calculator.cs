@@ -18,20 +18,36 @@ namespace Payslip{
             
             try {
                 //Add fullname 
-                string fullName = (string)_details[0] + (string)_details[1];
-                _payslipData.Add("Name: " + fullName);
+                _payslipData.Add("Name: " + getFullName());
 
                 //Pay period 
-                string startDate = (string)_details[4];
-                string endDate = (string)_details[5];
-                string[] startDateDetails = startDate.Split('/');
-                string[] endDateDetails = endDate.Split('/');
+                _payslipData.Add(getPayPeriod());
                 
+                //Gross income
                 
             } catch (IndexOutOfRangeException e){
                 Console.WriteLine(e);
             }
             
+        }
+
+        public string getFullName(){
+            return (string)_details[0] + (string)_details[1];
+        }
+
+        public string getPayPeriod(){
+            
+            string startDate = (string)_details[4];
+            string endDate = (string)_details[5];
+
+            string[] startDateDetails = startDate.Split('/');
+            string[] endDateDetails = endDate.Split('/');
+
+            char startMonth = startDateDetails[1][1];
+            char endMonth = endDateDetails[1][1];
+
+            string payPeriod = startDateDetails[0] + " " + Months[int.Parse(startMonth.ToString())] + " - " + endDateDetails[0] + " " + Months[int.Parse(endMonth.ToString())];
+            return payPeriod;
         }
     }
 }
