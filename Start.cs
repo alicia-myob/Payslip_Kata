@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 
 namespace Payslip{
@@ -7,15 +8,20 @@ namespace Payslip{
     class Start{
         
         private string[] Months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        private Dictionary<string, string> _info = new Dictionary<string, string>();
+        private List<int> _monthIndex = new List<int>();
         private Calculator _calculator = new Calculator();
         private string[] _userQuestions;
+
+        private ArrayList _payslip = new ArrayList();
 
         public static void Main(String[] args){
             Start payslipProgram = new Start();
             Console.WriteLine("Welcome to the payslip generator!");
             payslipProgram.readQuestions();
             payslipProgram.printAndValidate();
+            payslipProgram._calculator.generatePayslip();
+            payslipProgram._payslip = payslipProgram._calculator.getPayslip();
+            payslipProgram.printPayslip();
         }
 
         /*
@@ -45,6 +51,11 @@ namespace Payslip{
                     }
                 }
             }
+
+            try {
+                int[] indices = _monthIndex.ToArray();
+                _calculator.getMonthIndices(indices);
+            } catch(Exception){}
         }
 
         public bool validator(string input, string type){
@@ -92,6 +103,7 @@ namespace Payslip{
                         } else {
                             for (int i = 0; i < 12; i++){
                                 if (String.Equals(month, Months[i], StringComparison.OrdinalIgnoreCase)){
+                                    _monthIndex.Add(i);
                                     return true;
                                 }
                             } 
@@ -108,6 +120,12 @@ namespace Payslip{
 
         public bool checkStartBeforeEnd(){
             return true;
+        }
+
+        public void printPayslip(){
+            foreach (object i in _payslip){
+                Console.WriteLine(i);
+            }
         }
         
     }
