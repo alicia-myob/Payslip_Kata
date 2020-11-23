@@ -49,5 +49,12 @@ namespace Payslip{
             string payPeriod = startDateDetails[0] + " " + Months[int.Parse(startMonth.ToString())] + " - " + endDateDetails[0] + " " + Months[int.Parse(endMonth.ToString())];
             return payPeriod;
         }
+
+        public string getGrossIncome(){
+            string gIncome = "rrr";
+            int incomeForPeriod = int.Parse((string)_details[2]);
+            
+            return gIncome;
+        }
     }
 }
