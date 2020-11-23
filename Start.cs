@@ -6,6 +6,7 @@ namespace Payslip{
     
     class Start{
         
+        private string[] Months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         private Dictionary<string, string> _info = new Dictionary<string, string>();
         private Calculator _calculator = new Calculator();
         private string[] _userQuestions;
@@ -13,8 +14,6 @@ namespace Payslip{
         public static void Main(String[] args){
             Start payslipProgram = new Start();
             Console.WriteLine("Welcome to the payslip generator!");
-            Console.WriteLine("This program calculates the payslip for any start date, in full calendar months. \nIf your end date does not reach the next full month, it will calculate it to the previous full month.");
-            Console.WriteLine("*With the exception that if the period is shorter than a month, the program will calculate to one full month\n");
             payslipProgram.readQuestions();
             payslipProgram.printAndValidate();
         }
@@ -86,15 +85,18 @@ namespace Payslip{
                 case "payment end month and year (e.g. November 2020)":
                     string[] dates = input.Split(' ');
                     try {
-                        int month = int.Parse(dates[1]);
-                        int year = int.Parse(dates[2]);
+                        string month = dates[0];
+                        int year = int.Parse(dates[1]);
                         if (year < 0){
                             break;
-                        } else if ((month < 1)||(month > 12)){
+                        } else {
+                            for (int i = 0; i < 12; i++){
+                                if (String.Equals(month, Months[i], StringComparison.OrdinalIgnoreCase)){
+                                    return true;
+                                }
+                            } 
                             break;
                         }
-                        
-                        break;
                     } catch (FormatException){
                         break;
                     }
@@ -104,6 +106,9 @@ namespace Payslip{
             return false;
         }
 
+        public bool checkStartBeforeEnd(){
+            return true;
+        }
         
     }
 }
