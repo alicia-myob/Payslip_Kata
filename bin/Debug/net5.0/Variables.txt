@@ -1,6 +1,6 @@
 name
 surname
-annual salary 
+annual salary
 super rate
-payment start month (dd/mm/yyyy)
-payment end month (dd/mm/yyyy)
+payment start date (dd/mm/yyyy)
+payment end date (dd/mm/yyyy

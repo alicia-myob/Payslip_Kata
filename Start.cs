@@ -13,6 +13,8 @@ namespace Payslip{
         public static void Main(String[] args){
             Start payslipProgram = new Start();
             Console.WriteLine("Welcome to the payslip generator!");
+            Console.WriteLine("This program calculates the payslip for any start date, in full calendar months. \nIf your end date does not reach the next full month, it will calculate it to the previous full month.");
+            Console.WriteLine("*With the exception that if the period is shorter than a month, the program will calculate to one full month\n");
             payslipProgram.readQuestions();
             payslipProgram.printAndValidate();
         }
@@ -34,7 +36,7 @@ namespace Payslip{
             for (int i = 0; i < _userQuestions.Length; i++){
                 bool valid = false;
                 while (!valid){
-                    Console.WriteLine("\nPlease enter your " + _userQuestions[i] + ": ");
+                    Console.WriteLine("Please enter your " + _userQuestions[i] + ": ");
                     string input = Console.ReadLine();
                     valid = validator(input, _userQuestions[i]);
                     if (valid == false){
