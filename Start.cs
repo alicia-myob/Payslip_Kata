@@ -22,6 +22,7 @@ namespace Payslip{
             payslipProgram._calculator.generatePayslip();
             payslipProgram._payslip = payslipProgram._calculator.getPayslip();
             payslipProgram.printPayslip();
+            Console.WriteLine("\nThank you for using MYOB!\n");
         }
 
         /*
@@ -41,7 +42,7 @@ namespace Payslip{
             for (int i = 0; i < _userQuestions.Length; i++){
                 bool valid = false;
                 while (!valid){
-                    Console.WriteLine("Please enter your " + _userQuestions[i] + ": ");
+                    Console.Write("Please enter your " + _userQuestions[i] + ": ");
                     string input = Console.ReadLine();
                     valid = validator(input, _userQuestions[i]);
                     if (valid == false){
@@ -123,6 +124,7 @@ namespace Payslip{
         }
 
         public void printPayslip(){
+            Console.WriteLine("\nYour payslip has been generated:\n");
             foreach (object i in _payslip){
                 Console.WriteLine(i);
             }
