@@ -2,5 +2,5 @@ name
 surname
 annual salary
 super rate
-payment start date (dd/mm/yyyy)
-payment end date (dd/mm/yyyy
+payment start month and year (e.g. November 2020)
+payment end month and year (e.g. November 2020)

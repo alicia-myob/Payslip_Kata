@@ -82,29 +82,19 @@ namespace Payslip{
                     } catch (FormatException){
                         break;
                     }
-                case "payment start date (dd/mm/yyyy)": //Fallthrough
-                case "payment end date (dd/mm/yyyy)":
-                    string[] dates = input.Split('/');
+                case "payment start month and year (e.g. November 2020)": //Fallthrough
+                case "payment end month and year (e.g. November 2020)":
+                    string[] dates = input.Split(' ');
                     try {
-                        int date = int.Parse(dates[0]);
                         int month = int.Parse(dates[1]);
                         int year = int.Parse(dates[2]);
                         if (year < 0){
                             break;
                         } else if ((month < 1)||(month > 12)){
                             break;
-                        } else if ((date < 1)||(date > 31)){
-                            break;
-                        } 
-
-                        bool rtrn = checkMonthDate(month, date);
-                        bool leap = checkLeap(year, month, date);
-                        if ((rtrn == false)||(leap == false)){
-                            break;
-                        } else {
-                            return true;
                         }
-
+                        
+                        break;
                     } catch (FormatException){
                         break;
                     }
@@ -114,32 +104,6 @@ namespace Payslip{
             return false;
         }
 
-        public bool checkMonthDate(int month, int date){
-            if ((month < 8)&&(month % 2 == 1)){
-                if (date <= 31){
-                    return true;
-                }
-            } else if (month % 2 == 0){
-                if (date <= 31){
-                    return true;
-                }
-            } else {
-                if (date <= 30){
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool checkLeap(int year, int month, int date){
-            if ((month == 2)&&(date == 29)){
-                if (year % 4 == 0){
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            return true;
-        }
+        
     }
 }
