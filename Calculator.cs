@@ -36,18 +36,11 @@ namespace Payslip{
         }
 
         public string getPayPeriod(){
+            return "Pay Period: " + (string)_details[4] + " - " + (string)_details[5];
+        }
+
+        public void calculateMonths(){
             
-            string startDate = (string)_details[4];
-            string endDate = (string)_details[5];
-
-            string[] startDateDetails = startDate.Split('/');
-            string[] endDateDetails = endDate.Split('/');
-
-            char startMonth = startDateDetails[1][1];
-            char endMonth = endDateDetails[1][1];
-
-            string payPeriod = startDateDetails[0] + " " + Months[int.Parse(startMonth.ToString())] + " - " + endDateDetails[0] + " " + Months[int.Parse(endMonth.ToString())];
-            return payPeriod;
         }
 
         public string getGrossIncome(){
