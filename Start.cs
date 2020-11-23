@@ -3,22 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Payslip{
+namespace Payslip_Kata{
     
     /** 
         <summary> This payslip program calculates an employee's pay for a specified range of calendar months (within one annum only).
         This program also assumes that the payslip cannot be for a range less than a month. </summary>
     */
-    class Start{
+    internal class Start{
         
-        private string[] Months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        private List<int> _monthIndex = new List<int>();
-        private Calculator _calculator = new Calculator();
+        private readonly string[] _months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        private readonly List<int> _monthIndex = new List<int>();
+        private readonly Calculator _calculator = new Calculator();
         private string[] _userQuestions;
         private ArrayList _payslip = new ArrayList();
 
         public static void Main(String[] args){
-            Start payslipProgram = new Start();
+            var payslipProgram = new Start();
 
             //Welcome messages
             Console.WriteLine("\nWelcome to the payslip generator!");
@@ -26,15 +26,15 @@ namespace Payslip{
             Console.WriteLine(" e.g. March 2020 - April 2020 means 01 March 2020 to 31 April 2020\n");
             
             //Fetch questions to ask user
-            payslipProgram.readQuestions(); 
+            payslipProgram.ReadQuestions(); 
 
             //Ask user and check input
-            payslipProgram.printAndValidate();
+            payslipProgram.PrintAndValidate();
 
             //Calculate details for payslip and retrieve + print
-            payslipProgram._calculator.generatePayslip();
-            payslipProgram._payslip = payslipProgram._calculator.getPayslip();
-            payslipProgram.printPayslip();
+            payslipProgram._calculator.GeneratePayslip();
+            payslipProgram._payslip = payslipProgram._calculator.GetPayslip();
+            payslipProgram.PrintPayslip();
 
             //Ending messages
             Console.WriteLine("\nThank you for using MYOB!\n");
@@ -43,7 +43,7 @@ namespace Payslip{
         /*
             This method reads the questions to ask the user from the text file
         */
-        public void readQuestions(){
+        private void ReadQuestions(){
             var path = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Variables.txt");
             try {
                 _userQuestions = System.IO.File.ReadAllLines(path);
@@ -54,31 +54,36 @@ namespace Payslip{
     
         /*
         */
-        public void printAndValidate(){
-            
-            for (int i = 0; i < _userQuestions.Length; i++){
-                bool valid = false;
+        private void PrintAndValidate()
+        {
+            foreach (var t in _userQuestions)
+            {
+                var valid = false;
                 while (!valid){
-                    Console.Write("Please enter your " + _userQuestions[i] + ": ");
-                    string input = Console.ReadLine();
-                    valid = validator(input, _userQuestions[i]);
+                    Console.Write("Please enter your " + t + ": ");
+                    var input = Console.ReadLine();
+                    valid = Validator(input, t);
                     if (valid == false){
-                        Console.WriteLine("Your " + _userQuestions[i] + " is invalid.");
+                        Console.WriteLine("Your " + t + " is invalid.");
                     } else {
-                        _calculator.getDetails(input);
+                        _calculator.GetDetails(input);
                     }
                 }
             }
 
             try {
                 int[] indices = _monthIndex.ToArray();
-                _calculator.getMonthIndices(indices);
-            } catch(Exception){}
+                _calculator.GetMonthIndices(indices);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
-        public bool validator(string input, string type){
+        private bool Validator(string input, string type){
 
-            if (String.IsNullOrEmpty(input)){
+            if (string.IsNullOrEmpty(input)){
                 Console.WriteLine("Input cannot be blank. \n");
                 return false;
             } 
@@ -90,7 +95,7 @@ namespace Payslip{
 
                 case "annual salary":
                     try {
-                        int annualSalary = (int)Int64.Parse(input);
+                        var annualSalary = (int)long.Parse(input);
                         if (annualSalary < 0){
                             break;
                         } else {
@@ -101,7 +106,7 @@ namespace Payslip{
                     }
                 case "super rate":
                     try {
-                        decimal superRate = decimal.Parse(input);
+                        var superRate = decimal.Parse(input);
                         if ((superRate< 0)||(superRate > 50)){
                             break;
                         } else {
@@ -112,18 +117,18 @@ namespace Payslip{
                     }
                 case "payment start month and year (e.g. November 2020)": //Fallthrough
                 case "payment end month and year (e.g. November 2020)":
-                    string[] dates = input.Split(' ');
+                    var dates = input.Split(' ');
                     try {
-                        string month = dates[0];
-                        int year = int.Parse(dates[1]);
+                        var month = dates[0];
+                        var year = int.Parse(dates[1]);
                         if (year < 0){
                             break;
                         } else {
-                            for (int i = 0; i < 12; i++){
-                                if (String.Equals(month, Months[i], StringComparison.OrdinalIgnoreCase)){
-                                    _monthIndex.Add(i);
-                                    return true;
-                                }
+                            for (var i = 0; i < 12; i++)
+                            {
+                                if (!string.Equals(month, _months[i], StringComparison.OrdinalIgnoreCase)) continue;
+                                _monthIndex.Add(i);
+                                return true;
                             } 
                             break;
                         }
@@ -136,13 +141,9 @@ namespace Payslip{
             return false;
         }
 
-        public bool checkStartBeforeEnd(){
-            return true;
-        }
-
-        public void printPayslip(){
+        private void PrintPayslip(){
             Console.WriteLine("\nYour payslip has been generated:\n");
-            foreach (object i in _payslip){
+            foreach (var i in _payslip){
                 Console.WriteLine(i);
             }
         }

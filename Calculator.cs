@@ -1,47 +1,47 @@
 using System;
 using System.Collections;
+using System.Globalization;
 
-namespace Payslip{
+namespace Payslip_Kata{
 
     public class Calculator{
 
-        private string[] Months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        private string[] _months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         
-        private ArrayList _details = new ArrayList();
+        private readonly ArrayList _details = new ArrayList();
         private int _startMonthIndex;
         private int _endMonthIndex;
         private int _totalMonths;
         private int _grossIncome;
         private int _incomeTax;
-        private ArrayList _payslipData = new ArrayList();
-        public Calculator(){
-        }
+        private readonly ArrayList _payslipData = new ArrayList();
+        public Calculator(){}
 
-        public void getDetails(string input) => _details.Add(input);
+        public void GetDetails(string input) => _details.Add(input);
 
-        public void generatePayslip(){
+        public void GeneratePayslip(){
             
             try {
                 //Add fullname 
-                _payslipData.Add("Name: " + getFullName());
+                _payslipData.Add("Name: " + GetFullName());
 
                 //Pay period 
-                _payslipData.Add(getPayPeriod());
+                _payslipData.Add(GetPayPeriod());
 
-                getPayPeriod();
-                calculateMonths();
+                GetPayPeriod();
+                CalculateMonths();
                 
                 //Gross income
-                _payslipData.Add("Gross Income: " + getGrossIncome());
+                _payslipData.Add("Gross Income: " + GetGrossIncome());
 
                 //Income tax
-                _payslipData.Add("Income Tax: " + getIncomeTax());
+                _payslipData.Add("Income Tax: " + GetIncomeTax());
 
                 //Net income
-                _payslipData.Add("Net Income: " + getNetIncome());
+                _payslipData.Add("Net Income: " + GetNetIncome());
 
                 //Super
-                _payslipData.Add("Super: " + getSuper());
+                _payslipData.Add("Super: " + GetSuper());
 
             } catch (IndexOutOfRangeException e){
                 Console.WriteLine(e);
@@ -49,29 +49,29 @@ namespace Payslip{
             
         }
 
-        public ArrayList getPayslip(){
+        public ArrayList GetPayslip(){
             return _payslipData;
         }
 
-        public string getFullName(){
+        private string GetFullName(){
             return (string)_details[0] + " " + (string)_details[1];
         }
 
-        public string getPayPeriod(){
+        private string GetPayPeriod(){
             return "Pay Period: " + (string)_details[4] + " - " + (string)_details[5];
         }
 
-        public void getMonthIndices(int[] indices){
+        public void GetMonthIndices(int[] indices){
             _startMonthIndex = indices[0];
             _endMonthIndex = indices[1];
         }
 
-        public void calculateMonths(){
+        private void CalculateMonths(){
             try {
-                string startYear = ((string)_details[4]).Split(' ')[1];
-                string endYear = ((string)_details[5]).Split(' ')[1];
+                var startYear = ((string)_details[4])?.Split(' ')[1];
+                var endYear = ((string)_details[5])?.Split(' ')[1];
 
-                if (String.Equals(startYear, endYear, StringComparison.OrdinalIgnoreCase)){
+                if (string.Equals(startYear, endYear, StringComparison.OrdinalIgnoreCase)){
                     _totalMonths = _endMonthIndex + 1 - _startMonthIndex;
                 } else {
                     _totalMonths = _endMonthIndex + 1 + (11 - _startMonthIndex);
@@ -79,27 +79,35 @@ namespace Payslip{
             } catch (IndexOutOfRangeException){}
         }
 
-        public string getGrossIncome(){
-            _grossIncome = (int)Math.Round(Double.Parse((string)_details[2])*_totalMonths/12, MidpointRounding.ToEven);
+        private string GetGrossIncome(){
+            try
+            {
+                _grossIncome = (int) Math.Round(Double.Parse(((string) _details[2])!) * _totalMonths / 12,
+                    MidpointRounding.ToEven);
+            }
+            catch (ArgumentNullException)
+            {
+                //Ignored
+            }
+            
             return _grossIncome.ToString();
         }
 
-        public string getIncomeTax(){
-            Taxer taxer = new Taxer();
-            int oneMonthTax = taxer.getTax(Int32.Parse((string)_details[2]));
+        private string GetIncomeTax(){
+            var taxer = new Taxer();
+            var oneMonthTax = Taxer.GetTax(int.Parse((string)_details[2] ?? throw new InvalidOperationException()));
             _incomeTax = oneMonthTax*_totalMonths;
             return _incomeTax.ToString();
         }
 
-        public string getNetIncome(){
+        private string GetNetIncome(){
             return (_grossIncome - _incomeTax).ToString();
         }
 
-        public string getSuper(){
-            decimal superRate = decimal.Parse((string)_details[3])/100;
-            decimal superTotal = _grossIncome * superRate;
-            return Math.Round(superTotal, MidpointRounding.ToEven).ToString();
-
+        private string GetSuper(){
+            var superRate = decimal.Parse((string)_details[3] ?? throw new InvalidOperationException())/100;
+            var superTotal = _grossIncome * superRate;
+            return Math.Round(superTotal, MidpointRounding.ToEven).ToString(CultureInfo.InvariantCulture);
         }
     }
 }
