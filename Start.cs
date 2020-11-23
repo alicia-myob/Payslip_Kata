@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 
 namespace Payslip{
@@ -11,12 +12,16 @@ namespace Payslip{
         private Calculator _calculator = new Calculator();
         private string[] _userQuestions;
 
+        private ArrayList _payslip = new ArrayList();
+
         public static void Main(String[] args){
             Start payslipProgram = new Start();
             Console.WriteLine("Welcome to the payslip generator!");
             payslipProgram.readQuestions();
             payslipProgram.printAndValidate();
-            
+            payslipProgram._calculator.generatePayslip();
+            payslipProgram._payslip = payslipProgram._calculator.getPayslip();
+            payslipProgram.printPayslip();
         }
 
         /*
@@ -115,6 +120,12 @@ namespace Payslip{
 
         public bool checkStartBeforeEnd(){
             return true;
+        }
+
+        public void printPayslip(){
+            foreach (object i in _payslip){
+                Console.WriteLine(i);
+            }
         }
         
     }
