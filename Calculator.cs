@@ -77,9 +77,6 @@ namespace Payslip{
                     _totalMonths = _endMonthIndex + 1 + (11 - _startMonthIndex);
                 }
             } catch (IndexOutOfRangeException){}
-           
-            
-
         }
 
         public string getGrossIncome(){

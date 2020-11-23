@@ -1,22 +1,27 @@
 using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Payslip{
     
+    /*
+        This payslip program calculates an employee's pay for a specified range of calendar months (within one annum only).
+        This program also assumes that the payslip cannot be for a range less than a month.
+    */
     class Start{
         
         private string[] Months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         private List<int> _monthIndex = new List<int>();
         private Calculator _calculator = new Calculator();
         private string[] _userQuestions;
-
         private ArrayList _payslip = new ArrayList();
 
         public static void Main(String[] args){
             Start payslipProgram = new Start();
             Console.WriteLine("Welcome to the payslip generator!");
+            Console.WriteLine("*Note for pay period: enter start month as the month pay begins and end at the month inclusive");
+            Console.WriteLine(" e.g. March 2020 - April 2020 means 01 March 2020 to 31 April 2020");
             payslipProgram.readQuestions();
             payslipProgram.printAndValidate();
             payslipProgram._calculator.generatePayslip();
