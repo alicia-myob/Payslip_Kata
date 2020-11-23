@@ -82,8 +82,8 @@ namespace Payslip{
                     } catch (FormatException){
                         break;
                     }
-                case "payment start date": //Fallthrough
-                case "payment end date":
+                case "payment start date (dd/mm/yyyy)": //Fallthrough
+                case "payment end date (dd/mm/yyyy)":
                     string[] dates = input.Split('/');
                     try {
                         int date = int.Parse(dates[0]);
