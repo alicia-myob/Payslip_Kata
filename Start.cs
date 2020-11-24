@@ -16,6 +16,7 @@ namespace Payslip_Kata{
         
         private readonly string[] _months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         private readonly List<int> _monthIndex = new List<int>();
+        private readonly List<int> _yearList = new List<int>();
         private readonly Calculator _calculator = new Calculator();
         private string[] _userQuestions;
         private ArrayList _payslip = new ArrayList();
@@ -23,7 +24,8 @@ namespace Payslip_Kata{
         /**
          * <summary> Entry point of the program</summary>
          */
-        public static void Main(String[] args){
+        public static void Main(String[] args)
+        {
             var payslipProgram = new Start();
 
             //Welcome messages
@@ -62,7 +64,11 @@ namespace Payslip_Kata{
          * <summary>Method <c>PrintAndValidate</c> asks the user to input their details and checks the input with validator</summary>
         */
         private void PrintAndValidate()
-        {    
+        {
+            _monthIndex.Add(0);
+            _monthIndex.Add(0);
+            _yearList.Add(0);
+            _yearList.Add(0);
             //Loop through each question
             foreach (var t in _userQuestions)
             {
@@ -107,6 +113,7 @@ namespace Payslip_Kata{
             }
 
             //Each type of question needs to be checked differently
+            string[] dates;
             switch (type)
             {
                 //Accept any string for name and surname
@@ -151,9 +158,8 @@ namespace Payslip_Kata{
                         break;
                     }
                 //Accept only properly formatted date
-                case "payment start month and year (e.g. November 2020)": //Fallthrough
-                case "payment end month and year (e.g. November 2020)":
-                    var dates = input.Split(' ');
+                case "payment start month and year (e.g. November 2020)": 
+                    dates = input.Split(' ');
                     try
                     {
                         var month = dates[0];
@@ -167,12 +173,85 @@ namespace Payslip_Kata{
                             for (var i = 0; i < 12; i++)
                             {
                                 if (!string.Equals(month, _months[i], StringComparison.OrdinalIgnoreCase)) continue;
-                                _monthIndex.Add(i);
+                                _monthIndex[0] = i;
+                                _yearList[0] = year;
                                 return true;
                             }
 
                             break;
                         }
+                        
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        break;
+                    }
+                case "payment end month and year (e.g. November 2020)":
+                    dates = input.Split(' ');
+                    var monthCheck = false;
+                    try
+                    {
+                        var month = dates[0];
+                        var year = int.Parse(dates[1]);
+                        if (year < 0)
+                        {
+                            break;
+                        }
+
+                        for (var i = 0; i < 12; i++)
+                        {
+                            if (string.Equals(month, _months[i], StringComparison.OrdinalIgnoreCase))
+                            {
+                                monthCheck = true;
+                                _monthIndex[1] = i;
+                            }
+                            
+                        }
+
+                        if (!monthCheck)
+                        {
+                            break;
+                        }
+
+                        if (year == _yearList[0])
+                        {
+                            if (_monthIndex[1] < _monthIndex[0])
+                            {
+                                Console.WriteLine("Your end month is before your start month.");
+                                break;
+                            }
+                            else
+                            {
+                                _yearList[1] = year;
+                                return true;
+                            }
+                        
+                        } else if (year > _yearList[0])
+                        {
+                            if (year - _yearList[0] > 1)
+                            {
+                                Console.WriteLine("Your end date is more than a year after your start date!");
+                                break;
+                            }
+                            if (_monthIndex[1] >= _monthIndex[0])
+                            {
+                                Console.WriteLine("Your end date is more than a year after your start date!");
+                                Console.WriteLine("Please remember the format:");
+                                Console.WriteLine("Start date: March 2020 means 01 March 2020");
+                                Console.WriteLine("End date: March 2020 means 31 March 2020");
+                                break;
+                            }
+                            else
+                            {
+                                _yearList[1] = year;
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                        
                     }
                     catch (IndexOutOfRangeException)
                     {
@@ -182,6 +261,22 @@ namespace Payslip_Kata{
                     return false;
             }
 
+            return false;
+        }
+
+        private bool CheckWithinOneYear()
+        {
+            try
+            {
+                if (_yearList[0] == _yearList[1])
+                {
+                    return true;
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                //Ignored
+            }
             return false;
         }
 
