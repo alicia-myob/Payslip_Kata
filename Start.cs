@@ -24,7 +24,7 @@ namespace Payslip_Kata{
         /**
          * <summary> Entry point of the program</summary>
          */
-        public static void Main(String[] args)
+        public static void Main(string[] args)
         {
             var payslipProgram = new Start();
 
@@ -172,6 +172,7 @@ namespace Payslip_Kata{
                         {
                             for (var i = 0; i < 12; i++)
                             {
+                                //Check if it is a valid month
                                 if (!string.Equals(month, _months[i], StringComparison.OrdinalIgnoreCase)) continue;
                                 _monthIndex[0] = i;
                                 _yearList[0] = year;
@@ -186,6 +187,7 @@ namespace Payslip_Kata{
                     {
                         break;
                     }
+                //Check if end date is valid and if it is after start (within one year)  
                 case "payment end month and year (e.g. November 2020)":
                     dates = input.Split(' ');
                     var monthCheck = false;
@@ -205,7 +207,7 @@ namespace Payslip_Kata{
                                 monthCheck = true;
                                 _monthIndex[1] = i;
                             }
-                            
+
                         }
 
                         if (!monthCheck)
@@ -225,14 +227,16 @@ namespace Payslip_Kata{
                                 _yearList[1] = year;
                                 return true;
                             }
-                        
-                        } else if (year > _yearList[0])
+
+                        }
+                        else if (year > _yearList[0])
                         {
                             if (year - _yearList[0] > 1)
                             {
                                 Console.WriteLine("Your end date is more than a year after your start date!");
                                 break;
                             }
+
                             if (_monthIndex[1] >= _monthIndex[0])
                             {
                                 Console.WriteLine("Your end date is more than a year after your start date!");
@@ -249,11 +253,16 @@ namespace Payslip_Kata{
                         }
                         else
                         {
+                            Console.WriteLine("Your end date is before your start date!");
                             return false;
                         }
-                        
+
                     }
                     catch (IndexOutOfRangeException)
+                    {
+                        break;
+                    }
+                    catch (FormatException)
                     {
                         break;
                     }
