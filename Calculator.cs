@@ -4,6 +4,9 @@ using System.Globalization;
 
 namespace Payslip_Kata{
 
+    /**
+     * <summary>Class <c>Calculator</c> is for performing various calculations</summary>
+     */
     public class Calculator{
 
         private string[] _months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};

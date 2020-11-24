@@ -1,6 +1,9 @@
 using System;
 
 namespace Payslip_Kata{
+    /**
+     * <summary>Class <c>Taxer</c> is for handling all things *taxy* </summary>
+     */
     internal class Taxer{
         public static int GetTax(int annual){
             if ((annual > 18200)&&(annual < 37001)){
